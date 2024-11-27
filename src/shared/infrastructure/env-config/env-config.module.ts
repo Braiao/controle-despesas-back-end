@@ -1,12 +1,13 @@
 import { DynamicModule, Module } from '@nestjs/common'
-import { ConfigModule, ConfigModuleOptions } from '@nestjs/config'
+import { ConfigModule, ConfigModuleOptions, ConfigService } from '@nestjs/config'
 import { join } from 'node:path'
+
 
 @Module({})
 export class EnvConfigModule {
     static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
         return {
-            module: EnvConfigModule, // Define explicitamente o módulo
+            module: EnvConfigModule, // Define explicitamente o módulo[]
             imports: [
                 ConfigModule.forRoot({
                     ...options, // Permite opções personalizáveis
@@ -18,6 +19,8 @@ export class EnvConfigModule {
                     ],
                 }),
             ],
+            providers: [ConfigService], // Garantir que o ConfigService esteja disponível
+            exports: [ConfigService],
         }
     }
 }
