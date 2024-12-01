@@ -1,5 +1,5 @@
 import { ClassValidatorFields } from '@shared/domain/entities/validators/class-validator-fields'
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
+import { IsDate, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
 import { UserProps } from 'src/users/entities/user.entity'
 
 export class UserRules {
@@ -11,6 +11,7 @@ export class UserRules {
     @MaxLength(255)
     @IsString()
     @IsNotEmpty()
+    @IsEmail()
     email: string
 
     @MaxLength(100)
