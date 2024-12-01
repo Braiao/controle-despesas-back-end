@@ -5,11 +5,14 @@ import {
     UserValidator,
     UserValidatorFactory,
 } from '../../user.validator'
+import { UserProps } from 'src/users/entities/user.entity'
 
 let sut: UserValidator
+let props: UserProps
 describe('UserValidator unit tests', () => {
     beforeEach(() => {
         sut = UserValidatorFactory.create()
+        props = UserDataBuilder({})
     })
 
     it('Valid case for user validator class', () => {
@@ -140,6 +143,22 @@ describe('UserValidator unit tests', () => {
             expect(sut.errors['password']).toStrictEqual([
                 'password must be shorter than or equal to 100 characters',
             ])
+        })
+    })
+
+    describe('CreatedAt field', () => {
+        it('Invalidation cases for createdAt field', () => {
+            let isValid = sut.validate({...props, createdAt: 10 as any})
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['createdAt']).toStrictEqual(
+                [ 'createdAt must be a Date instance' ]
+            )
+
+            isValid = sut.validate({...props, createdAt: '2020' as any})
+            expect(isValid).toBeFalsy()
+            expect(sut.errors['createdAt']).toStrictEqual(
+                [ 'createdAt must be a Date instance' ]
+            )
         })
     })
     
